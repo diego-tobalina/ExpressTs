@@ -1,0 +1,62 @@
+version: '2'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - postgreData:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app
+      - postgres
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_PASSWORD: password
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@bosonit.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/root/.pgadmin
+    expose:
+      - 80
+    ports:
+      - 80:80
+    networks:
+      - postgres
+    restart: unless-stopped
+    depends_on:
+      - postgres
+  nodejs:
+    container_name: nodejs
+    image: nodejs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    networks:
+      - app
+volumes:
+  postgreData:
+  pgadmin:
+networks:
+  app:
+  postgres:

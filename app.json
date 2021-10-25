@@ -1,0 +1,44 @@
+{
+  "name": "ExpressTs",
+  "description": "",
+  "keywords": [
+    "nodejs"
+  ],
+  "website": "",
+  "repository": "https://github.com/xBidi/ExpressTs",
+  "logo": "",
+  "success_url": "",
+  "scripts": {},
+  "env": {},
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "image": "heroku/nodejs",
+  "addons": [
+    {
+      "plan": "librato:development",
+      "as": "LIBRATO"
+    },
+    {
+      "plan": "papertrail:choklad",
+      "as": "PAPERTRAIL"
+    },
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "as": "DATABASE"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
+  ],
+  "environments": {
+    "dev": {},
+    "pre": {},
+    "pro": {}
+  }
+}
